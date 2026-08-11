@@ -3,7 +3,11 @@ import type { Report } from "../types/Report";
 import { getReports } from "../services/reportService";
 import ReportCard from "./ReportCard";
 
-function LandingPage() {
+interface LandingPageProps {
+    onSelectReport: (id: string) => void;
+}
+
+function LandingPage({ onSelectReport }: LandingPageProps)  {
     const [reports, setReports] = useState<Report[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [loading, setLoading] = useState(true);
@@ -42,7 +46,7 @@ function LandingPage() {
                     <ReportCard
                         key={report.id}
                         report={report}
-                        onClick={() => console.log(`Clicked: ${report.id}`)}
+                        onClick={() => onSelectReport(report.id)}
                     />
                 ))}
             </div>
