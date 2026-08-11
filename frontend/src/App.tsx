@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LandingPage from "./components/LandingPage";
+import UserReport from "./components/UserReport.tsx";
 
 function App() {
     const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
@@ -12,6 +13,7 @@ function App() {
         <div>
             <p>You selected: {selectedReportId}</p>
             <button onClick={() => setSelectedReportId(null)}>Back to reports</button>
+            {selectedReportId === "users" && <UserReport />}
         </div>
     );
 }
