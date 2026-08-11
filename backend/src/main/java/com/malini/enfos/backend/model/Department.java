@@ -8,7 +8,7 @@ import lombok.Data;
 public class Department {
     private String departmentId;
     private String departmentName;
-    private String managerId;
+    private String managerId; // must match a valid User.userId (see InMemoryUserRepository)
     private int employeeCount;
     private String location;
 }
