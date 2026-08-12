@@ -29,7 +29,7 @@ function DepartmentReport() {
     }, []);
 
     if (loading) return <p>Loading departments...</p>;
-    if (error) return <p>Something went wrong: {error}</p>;
+    if (error) return <p>Unable to load departments. Please try again later.</p>;
 
     return <ReportTable columns={departmentColumns} data={departments} getRowKey={(d) => d.departmentId} />;
 }

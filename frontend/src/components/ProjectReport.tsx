@@ -31,7 +31,7 @@ function ProjectReport() {
     }, []);
 
     if (loading) return <p>Loading projects...</p>;
-    if (error) return <p>Something went wrong: {error}</p>;
+    if (error) return <p>Unable to load projects. Please try again later.</p>;
 
     return <ReportTable columns={projectColumns} data={projects} getRowKey={(p) => p.projectId} />;
 }

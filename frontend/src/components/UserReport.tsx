@@ -30,7 +30,7 @@ function UserReport() {
     }, []);
 
     if (loading) return <p>Loading users...</p>;
-    if (error) return <p>Something went wrong: {error}</p>;
+    if (error) return <p>Unable to load reports. Please try again later.</p>;
 
     return <ReportTable columns={userColumns} data={users} getRowKey={(u) => u.userId} />;
 }

@@ -29,12 +29,11 @@ function LandingPage({ onSelectReport }: LandingPageProps)  {
     }
 
     if (error) {
-        return <p>Something went wrong: {error}</p>;
+        return <p>Unable to load reports. Please try again later.</p>;
     }
 
     return (
         <div>
-            <h1>Reporting Portal</h1>
             <input
                 type="text"
                 placeholder="Search reports..."
