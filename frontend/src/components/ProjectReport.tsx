@@ -42,7 +42,7 @@ function ProjectReport() {
 
     return (
         <>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2, ml : 4 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2, maxWidth: 1300, mx: "auto" }}>
                 <FormControl size="small" sx={{ minWidth: 200 }}>
                     <InputLabel>Filter by Status</InputLabel>
                     <Select value={statusFilter} label="Filter by Status" onChange={(e) => setStatusFilter(e.target.value)}>
