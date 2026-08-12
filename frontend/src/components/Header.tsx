@@ -1,4 +1,5 @@
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 interface HeaderProps {
     onGoHome: () => void;
@@ -8,20 +9,15 @@ interface HeaderProps {
 function Header({ onGoHome, showBackButton }: HeaderProps) {
     return (
         <AppBar position="static">
-            <Toolbar>
-                <Typography
-                    variant="h6"
-                    onClick={onGoHome}
-                    className="clickable"
-                    sx={{ cursor: "pointer", flexGrow: 1 }}
-                >
+            <Toolbar sx={{ px: 3 }}>
+                {showBackButton && (
+                    <IconButton color="inherit" onClick={onGoHome} sx={{ mr: 1 }}>
+                        <ArrowBackIcon />
+                    </IconButton>
+                )}
+                <Typography variant="h6" onClick={onGoHome} sx={{ cursor: "pointer" }}>
                     Enfos Reporting Portal
                 </Typography>
-                {showBackButton && (
-                    <Button color="inherit" onClick={onGoHome}>
-                        Back to Reports
-                    </Button>
-                )}
             </Toolbar>
         </AppBar>
     );

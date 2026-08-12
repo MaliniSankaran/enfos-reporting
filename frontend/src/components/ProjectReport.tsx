@@ -4,7 +4,7 @@ import { getProjects } from "../services/projectService";
 import ReportTable from "./ReportTable";
 import StatusChip from "./StatusChip.tsx";
 import type { Column } from "../types/Column";
-import {Box, CircularProgress} from "@mui/material";
+import { Box, CircularProgress, FormControl, InputLabel, Select, MenuItem, Button } from "@mui/material";
 
 const projectColumns: Column<Project>[] = [
     { header: "Project ID", render: (p) => p.projectId },
@@ -20,6 +20,7 @@ function ProjectReport() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [statusFilter, setStatusFilter] = useState<string>("ALL");
 
     useEffect(() => {
         getProjects()
@@ -37,7 +38,31 @@ function ProjectReport() {
     }
     if (error) return <p>Unable to load projects. Please try again later.</p>;
 
-    return <ReportTable columns={projectColumns} data={projects} getRowKey={(p) => p.projectId} />;
+    const filteredProjects = statusFilter === "ALL" ? projects : projects.filter((p) => p.status === statusFilter);
+
+    return (
+        <>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2, ml : 4 }}>
+                <FormControl size="small" sx={{ minWidth: 200 }}>
+                    <InputLabel>Filter by Status</InputLabel>
+                    <Select value={statusFilter} label="Filter by Status" onChange={(e) => setStatusFilter(e.target.value)}>
+                        <MenuItem value="ALL">All</MenuItem>
+                        <MenuItem value="ACTIVE">Active</MenuItem>
+                        <MenuItem value="COMPLETED">Completed</MenuItem>
+                        <MenuItem value="ON_HOLD">On Hold</MenuItem>
+                        <MenuItem value="CANCELLED">Cancelled</MenuItem>
+                    </Select>
+                </FormControl>
+
+                {statusFilter !== "ALL" && (
+                    <Button size="small" onClick={() => setStatusFilter("ALL")}>
+                        Clear Filters
+                    </Button>
+                )}
+            </Box>
+            <ReportTable columns={projectColumns} data={filteredProjects} getRowKey={(p) => p.projectId} />
+        </>
+    );
 }
 
 export default ProjectReport;

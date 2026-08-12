@@ -10,9 +10,10 @@ interface ReportTableProps<T> {
     columns: Column<T>[];
     data: T[];
     getRowKey: (row: T) => string;
+    highlightKey?: string;
 }
 
-function ReportTable<T>({ columns, data, getRowKey }: ReportTableProps<T>) {
+function ReportTable<T>({ columns, data, getRowKey, highlightKey }: ReportTableProps<T>) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -36,7 +37,7 @@ function ReportTable<T>({ columns, data, getRowKey }: ReportTableProps<T>) {
                 </TableHead>
                 <TableBody>
                     {paginatedData.map((row) => (
-                        <TableRow key={getRowKey(row)} hover>
+                        <TableRow key={getRowKey(row)} hover sx={getRowKey(row) === highlightKey ? { backgroundColor: "#e3f2fd" } : undefined}>
                             {columns.map((col) => (
                                 <TableCell key={col.header} align={col.align} sx={{ borderRight: "1px solid", borderColor: "grey.200" }}>
                                     {col.render(row)}

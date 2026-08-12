@@ -4,7 +4,7 @@ import { getUsers } from "../services/userService";
 import ReportTable from "./ReportTable";
 import StatusChip from "./StatusChip.tsx";
 import type { Column } from "../types/Column";
-import {Box, CircularProgress} from "@mui/material";
+import { Box, Button, CircularProgress, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 const userColumns: Column<User>[] = [
     { header: "User ID", render: (u) => u.userId },
@@ -19,6 +19,8 @@ function UserReport() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [statusFilter, setStatusFilter] = useState<string>("ALL");
+    const [roleFilter, setRoleFilter] = useState<string>("ALL");
 
     useEffect(() => {
         getUsers()
@@ -35,8 +37,44 @@ function UserReport() {
         );
     }
     if (error) return <p>Unable to load reports. Please try again later.</p>;
+    const filteredUsers = users.filter((u) => {
+        const statusMatch = statusFilter === "ALL" || u.status === statusFilter;
+        const roleMatch = roleFilter === "ALL" || u.role === roleFilter;
+        return statusMatch && roleMatch;
+    });
 
-    return <ReportTable columns={userColumns} data={users} getRowKey={(u) => u.userId} />;
+    return (
+        <>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 , ml:4}}>
+                <FormControl size="small" sx={{ minWidth: 200 }}>
+                    <InputLabel>Filter by Status</InputLabel>
+                    <Select value={statusFilter} label="Filter by Status" onChange={(e) => setStatusFilter(e.target.value)}>
+                        <MenuItem value="ALL">All</MenuItem>
+                        <MenuItem value="ACTIVE">Active</MenuItem>
+                        <MenuItem value="INACTIVE">Inactive</MenuItem>
+                        <MenuItem value="PENDING">Pending</MenuItem>
+                    </Select>
+                </FormControl>
+
+                <FormControl size="small" sx={{ minWidth: 200 }}>
+                    <InputLabel>Filter by Role</InputLabel>
+                    <Select value={roleFilter} label="Filter by Role" onChange={(e) => setRoleFilter(e.target.value)}>
+                        <MenuItem value="ALL">All</MenuItem>
+                        <MenuItem value="ADMIN">Admin</MenuItem>
+                        <MenuItem value="MANAGER">Manager</MenuItem>
+                        <MenuItem value="USER">User</MenuItem>
+                    </Select>
+                </FormControl>
+
+                {(statusFilter !== "ALL" || roleFilter !== "ALL") && (
+                    <Button size="small" onClick={() => { setStatusFilter("ALL"); setRoleFilter("ALL"); }}>
+                        Clear Filters
+                    </Button>
+                )}
+            </Box>
+            <ReportTable columns={userColumns} data={filteredUsers} getRowKey={(u) => u.userId} />
+        </>
+    );
 }
 
 export default UserReport;
