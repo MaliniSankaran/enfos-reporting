@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import type { Report } from "../types/Report";
 import { getReports } from "../services/reportService";
 import ReportCard from "./ReportCard";
+import {Box, TextField, InputAdornment, Typography, CircularProgress} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 interface LandingPageProps {
     onSelectReport: (id: string) => void;
@@ -25,7 +27,11 @@ function LandingPage({ onSelectReport }: LandingPageProps)  {
     );
 
     if (loading) {
-        return <p>Loading reports...</p>;
+        return (
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+                <CircularProgress />
+            </Box>
+        );
     }
 
     if (error) {
@@ -33,23 +39,36 @@ function LandingPage({ onSelectReport }: LandingPageProps)  {
     }
 
     return (
-        <div>
-            <input
-                type="text"
+        <Box sx={{ maxWidth: 1300, mx: "auto" }}>
+            <TextField
                 placeholder="Search reports..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                sx={{ width: 400, mb: 5 }}
+                slotProps={{
+                    input: {
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        ),
+                    },
+                }}
             />
-            <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
-                {filteredReports.map((report) => (
-                    <ReportCard
-                        key={report.id}
-                        report={report}
-                        onClick={() => onSelectReport(report.id)}
-                    />
-                ))}
-            </div>
-        </div>
+            {filteredReports.length === 0 ? (
+                <Typography color="text.secondary">No reports match your search.</Typography>
+            ) : (
+                <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+                    {filteredReports.map((report) => (
+                        <ReportCard
+                            key={report.id}
+                            report={report}
+                            onClick={() => onSelectReport(report.id)}
+                        />
+                    ))}
+                </Box>
+            )}
+        </Box>
     );
 }
 

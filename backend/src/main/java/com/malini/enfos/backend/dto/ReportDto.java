@@ -10,4 +10,5 @@ public class ReportDto {
     private String name;
     private String description;
     private String lastUpdated;
+    private int recordCount;
 }

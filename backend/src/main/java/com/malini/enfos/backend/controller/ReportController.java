@@ -32,9 +32,9 @@ public class ReportController {
     @GetMapping
     public List<ReportDto> getAllReports() {
         return List.of(
-                new ReportDto("users", "Users", "People in the system", "2026-08-01T10:00:00Z"),
-                new ReportDto("departments", "Departments", "Org structure", "2026-08-01T10:00:00Z"),
-                new ReportDto("projects", "Projects", "Active & past work", "2026-08-01T10:00:00Z")
+                new ReportDto("users", "Users", "People in the system", "2026-08-01T10:00:00Z", userService.getAllUsers().size()),
+                new ReportDto("departments", "Departments", "Org structure", "2026-08-01T10:00:00Z", departmentService.getAllDepartments().size()),
+                new ReportDto("projects", "Projects", "Active & past work", "2026-08-01T10:00:00Z", projectService.getAllProjects().size())
         );
     }
 

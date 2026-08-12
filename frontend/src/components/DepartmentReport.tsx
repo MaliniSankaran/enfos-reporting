@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import type { Department } from "../types/Department";
 import { getDepartments } from "../services/departmentService";
+import type { Column } from "../types/Column";
 import ReportTable from "./ReportTable";
-
-interface Column<T> {
-    header: string;
-    render: (row: T) => React.ReactNode;
-}
+import {Box, CircularProgress} from "@mui/material";
 
 const departmentColumns: Column<Department>[] = [
     { header: "Department ID", render: (d) => d.departmentId },
     { header: "Department Name", render: (d) => d.departmentName },
     { header: "Manager", render: (d) => d.managerName },
-    { header: "Employee Count", render: (d) => d.employeeCount },
+    { header: "Employee Count", render: (d) => d.employeeCount, align: "right"},
     { header: "Location", render: (d) => d.location },
 ];
 
@@ -28,7 +25,13 @@ function DepartmentReport() {
             .finally(() => setLoading(false));
     }, []);
 
-    if (loading) return <p>Loading departments...</p>;
+    if (loading) {
+        return (
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
     if (error) return <p>Unable to load departments. Please try again later.</p>;
 
     return <ReportTable columns={departmentColumns} data={departments} getRowKey={(d) => d.departmentId} />;

@@ -3,4 +3,5 @@ export interface Report {
     name: string;
     description: string;
     lastUpdated: string;
+    recordCount: number;
 }

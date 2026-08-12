@@ -53,3 +53,6 @@ h1, h2, h3 {
     color: var(--text-h);
     margin: 0;
 }
+button, [role="button"], .clickable {
+    user-select: none;
+}
