@@ -14,7 +14,7 @@ const userColumns: Column<User>[] = [
     { header: "Email", render: (u) => u.email },
     { header: "Role", render: (u) => u.role },
     { header: "Status", render: (u) => u.status },
-    { header: "Created Date", render: (u) => new Date(u.createdDate).toLocaleDateString() },
+    { header: "Created Date", render: (u) => new Date(u.createdDate).toLocaleDateString(undefined, { timeZone: "UTC" }) },
 ];
 
 function UserReport() {
